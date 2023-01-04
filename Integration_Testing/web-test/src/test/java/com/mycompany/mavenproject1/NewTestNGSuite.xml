@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="com.mycompany_TestMavin_jar_1.0-SNAPSHOT">
+    <test name="TabsFunctionality"> 
+        <classes>  
+            <class name="com.mycompany.mavenproject1.TestMavinIT_Organized">
+                <methods>
+                    <include name="testLogin"/> 
+                    <include name="screenShots"/>
+                    <include name="testSideBar"/>
+                    <include name="testTabAdmin"/>
+                    <include name="testTabPim"/>
+                    <include name="testTabLeave"/>
+                    <include name="testTabTime"/>
+                    <include name="testTabRecruitment"/>
+                    <include name="testTabInfo"/>
+                    <include name="testTabPerformance"/>
+                    <include name="testTabDashboard"/>
+                    <include name="testTabDirectory"/>
+                    <include name="testTabMaintenance"/>
+                    <include name="testTabBuzz"/>
+                    <include name="testLogout"/>
+                </methods>
+            </class>
+        </classes>  
+    </test>
+</suite>
