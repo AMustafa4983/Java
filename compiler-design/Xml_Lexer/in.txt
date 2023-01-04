@@ -1,0 +1,49 @@
+%
+<Employee id=1>
+<Name>
+Ali
+<Secondname>
+Ibrahim
+<Age>
+25
+%
+<Employee id=2>
+<Name>
+Ahmed
+<Secondname>
+Mustafa
+<Age>
+30
+%
+<Employee id=3>
+<Name>
+Abdelrahman
+<Secondname>
+Mohamed
+<Age>
+29
+%
+<notEmployee id=1>
+<Name>
+Ali
+<Secondname>
+Ibrahim
+<Age>
+25
+%
+<notEmployee id=2>
+<Name>
+Ahmed
+<Secondname>
+Mustafa
+<Age>
+30
+%
+<notEmployee id=3>
+<Name>
+Abdelrahman
+<Secondname>
+Mohamed
+<Age>
+29
+%

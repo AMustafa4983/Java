@@ -1,0 +1,53 @@
+import java.io.*;
+enum TokenType{OB,CB,BSlASH,WORD,NUM,EOR}
+class Token{
+	String text;
+	int begin;
+	int end; 
+	TokenType type;
+	public Token(TokenType type,String text){
+		this.type = type;
+		this.text = text;
+	}
+	public String toString(){
+		return String.format("%s,%s",type,text);
+	}
+}
+%%
+%class Lexer
+%public
+%function getNextToken
+%type Token
+%{
+		public static void main(String[]args) throws IOException
+		{
+			String msg ="My age is 30";
+			FileReader r = new FileReader("in.txt");
+			PrintWriter pw = new PrintWriter("out.txt");
+			Lexer l = new Lexer(r);
+			Token tok;
+			while((tok=l.getNextToken()) != null)
+			{	
+				pw.println(tok);
+				pw.close();
+				r.close();
+			}
+				
+		}
+%}
+%line
+%char
+ALPHA = [a-zA-Z]
+DIGIT = [0-9]
+WS = [\r\t\n\f\ ]
+OB = [<ALPHA>]
+BSlASH = [/]
+EOR = [%]
+%%
+<YYINITIAL> {ALPHA}[a-zA-Z][a-zA-Z0-9]* {return new Token(TokenType.WORD,yytext());}
+<YYINITIAL> 0|[1-9]{DIGIT}* {return new Token(TokenType.NUM,yytext());}
+<YYINITIAL> {OB}* {return new Token(TokenType.OB,yytext());}
+<YYINITIAL> {BSlASH}* {return new Token(TokenType.BSlASH,yytext());}
+<YYINITIAL> {EOR}* {return new Token(TokenType.EOR,yytext());}
+<YYINITIAL>  {WS}* {}
+<YYINITIAL> . {System.out.println("error");}

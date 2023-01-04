@@ -1,0 +1,137 @@
+options {
+	STATIC = false;
+}
+
+PARSER_BEGIN(sql)
+	import java.util.*;
+	import java.io.*;
+	public class sql{
+		public String create_table = "CREATE TABLE %s (%) ";
+		public static void main(String[] args) throws Exception{
+			ArrayList<String> table = new ArrayList<String>();
+			FileReader file = new FileReader("in.txt");
+			sql xml = new sql(file);
+			FileWriter myWriter = new FileWriter("out.txt");
+      			table = xml.expr();
+			for(String str:table)
+			{
+				myWriter.write(str);
+				myWriter.write("\n");
+			}
+			myWriter.close();
+		}	
+	}
+PARSER_END(sql)
+
+SKIP: {" "|"\t"}
+SKIP: {"\n"|"\r"|"\r\n"}
+TOKEN: {<OB:"<" >}
+TOKEN: {<CB:">" >}
+TOKEN: {<CLOSE:(<OB> <BSLASH> <TEXT>) + (<CB>)>}
+TOKEN: {<BSLASH:"/">}
+TOKEN:{<EQ:"=">}
+TOKEN: {<TEXT : (["a"-"z", "A"-"Z"])*>}
+TOKEN: {<NUM: ((["1"-"9"](["0"-"9"])*)| "0")>}
+
+
+ArrayList<String> expr():
+{ArrayList<String> passing;}
+{
+	passing = S() {return passing;}
+}
+
+ArrayList<String> S():
+{
+	String[] pass={};
+	String db_name;
+	String compare = "";
+	String create_db = "CREATE DATABASE %s;";
+	ArrayList<String> pass2 = new ArrayList<String>();
+}
+{
+	db_name = ob() {create_db = String.format(create_db,db_name);}
+	{pass2.add("");}
+	(pass = T() {pass2.add(pass[1]);if(compare.length()<pass[0].length()){compare = pass[0];}})*
+	{pass2.set(0,compare);System.out.println(compare);}
+	<CLOSE>
+	{return pass2;}
+}
+
+String[] T():
+{
+	ArrayList<String> records= new ArrayList<String>();
+	ArrayList<String> col_names= new ArrayList<String>();
+	String add_data = "INSERT INTO %s(%s) VALUES (%s);";
+	String create_table = "CREATE TABLE %s (ID INTEGER PRIMARY KEY AUTOINCREMENT, %s);";
+	String[] root={};
+	String table_name="";
+	String col="";
+	String col2="";
+	String rec="";
+	String[] result= new String[2];
+}
+{
+	table_name = obt()
+	(
+		root = R() {col_names.add(root[0]);records.add(root[1]);}
+	)*
+	{
+		for (int i = 0; i < col_names.size(); i++){
+			col = col + col_names.get(i);
+			col2 = col2 + col_names.get(i) + " TEXT";
+			if(i+1 != col_names.size()){col = col + ",";col2 = col2 + ",";}
+		}
+		for (int i = 0; i < records.size(); i++){
+			rec = rec + "\"" +records.get(i)+ "\"";
+			if(i+1 != records.size()){rec = rec + ",";}
+		}
+	
+	}
+	{add_data = String.format(add_data,table_name,col,rec);}
+	{create_table = String.format(create_table,table_name,col2);}
+	{result[0]= create_table;result[1]=add_data;}
+	<CLOSE>
+	{return result;}
+}
+String[] R():
+{
+	Token t;
+	String[] record = new String[2];
+}
+{
+	record[0] = ob()
+	(
+		t = <TEXT>{record[1] = t.image;}
+		|
+		t = <NUM> {record[1] = String.valueOf(t.image);}
+	)
+	<CLOSE>
+	{return record;}
+}
+
+
+String ob():
+{
+	Token t;
+	String name="";
+}
+
+{
+	<OB>
+		t = <TEXT> {name = t.image;}
+	<CB>
+	{return name;}
+}
+
+String obt():
+{
+	Token t;
+	String name="";
+}
+
+{
+	<OB>
+		t = <TEXT> {name = t.image;} <TEXT> <EQ> <NUM>
+	<CB>
+	{return name;}
+}

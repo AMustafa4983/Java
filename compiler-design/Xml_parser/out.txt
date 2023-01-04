@@ -1,0 +1,4 @@
+CREATE TABLE Employee (ID INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT,Secondname TEXT,Age TEXT,karim TEXT);
+INSERT INTO Employee(Name,Secondname,Age,karim) VALUES ("Ali","Ibrahim","25","asdas");
+INSERT INTO Employee(Name,Secondname,Age) VALUES ("Ahmed","Mustafa","30");
+INSERT INTO Employee(Name,Secondname,Age) VALUES ("Abdelrahman","Mohamed","29");

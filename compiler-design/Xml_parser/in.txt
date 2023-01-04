@@ -1,0 +1,18 @@
+<Employees>
+	<Employee id=1>
+		<Name>Ali</Name>
+		<Secondname>Ibrahim</Secondname>
+		<Age>25</Age>
+		<karim>asdas</karim>
+	</Employee>
+	<Employee id=2>
+		<Name>Ahmed</Name>
+		<Secondname>Mustafa</Secondname>
+		<Age>30</Age>
+	</Employee>
+	<Employee id=3>
+		<Name>Abdelrahman</Name>
+		<Secondname>Mohamed</Secondname>
+		<Age>29</Age>
+	</Employee>
+</Employees>
